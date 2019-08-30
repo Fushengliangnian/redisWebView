@@ -4,17 +4,28 @@
 # @Author  : lidong@immusician.com
 # @Site    :
 # @File    : common.py
+import asyncio
+
 from sanic import Sanic
 from jinja2 import Environment, FileSystemLoader, select_autoescape
-from settings import TEMPLATES_PATH
+
+from utils import load_setting
+from connections import RedisConnectionPool
 
 __all__ = ["app"]
 
 app = Sanic(__name__)
+app.config = load_setting()
 app.template = Environment(
-    loader=FileSystemLoader(TEMPLATES_PATH),
+    loader=FileSystemLoader(app.config["TEMPLATES_PATH"]),
     autoescape=select_autoescape(['html', 'xml']),
     enable_async=False
 )
 app.static("/static", "./static")
-app.static("/static/img/progress.gif", "./static/img/1.jpg")
+
+
+@app.listener('before_server_start')
+async def before_server_start(app, loop):
+    queue = asyncio.Queue()
+    app.queue = queue
+    app.redis = await RedisConnectionPool(loop=loop).init(app.config['REDIS_CONFIG'])
