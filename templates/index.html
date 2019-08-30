@@ -1,0 +1,40 @@
+{% extends "layouts.html" %}
+{% block content %}
+<ol class="breadcrumb">
+  <li><a href="#">Home</a></li>
+  <li><a href="#">Library</a></li>
+  <li class="active">Data</li>
+</ol>
+<h1 style="margin-top: 10px; margin-bottom: 30px">选择数据库</h1>
+<hr>
+<table class="table table-hover">
+  <thead>
+    <tr>
+      <th>ID</th>
+      <th>数据库别名</th>
+      <!-- <th>Last Name</th> -->
+      <!-- <th>Username</th> -->
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th scope="row">1</th>
+      <td>Mark</td>
+      <!-- <td>Otto</td>
+      <td>@mdo</td> -->
+    </tr>
+    <tr>
+      <th scope="row">2</th>
+      <td>Jacob</td>
+      <!-- <td>Thornton</td>
+      <td>@fat</td> -->
+    </tr>
+    <tr>
+      <th scope="row">3</th>
+      <td>Larry</td>
+      <!-- <td>the Bird</td>
+      <td>@twitter</td> -->
+    </tr>
+  </tbody>
+</table>
+{% endblock %}

@@ -1,0 +1,56 @@
+{% extends "layouts.html" %}
+{% block content %}
+<ol class="breadcrumb">
+    <li><a href="#">Home</a></li>
+    <li><a href="#">Library</a></li>
+    <li class="active">Data</li>
+</ol>
+<h1 style="margin-top: 10px; margin-bottom: 30px">键值列表</h1>
+<hr>
+<div class="row">
+
+    <div class="col-lg-6">
+        <div class="input-group">
+            <input type="text" class="form-control" placeholder="Search for...">
+            <span class="input-group-btn">
+                <button class="btn btn-default" type="button">Go!</button>
+            </span>
+        </div><!-- /input-group -->
+    </div><!-- /.col-lg-6 -->
+</div><!-- /.row -->
+
+<table class="table table-hover" style="height: 1000px">
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>键名</th>
+            <th>键值类型</th>
+            <th>键值大小</th>
+            <th>键值详情</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for item in data %}
+        <tr>
+            <th scope="row">{{ loop.index }}</th>
+            <td>{{ item.key }}</td>
+            <td>{{ item.type }}</td>
+            <td>{{ item.size }}b</td>
+            <td>{{ item.details }}</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+<nav aria-label="...">
+    <ul class="pagination">
+        <li class="disabled"><a href="#" aria-label="Previous"><span aria-hidden="true">«</span></a></li>
+        <li class="active"><a href="#">1 <span class="sr-only">(current)</span></a></li>
+        <li><a href="#">2</a></li>
+        <li><a href="#">3</a></li>
+        <li><a href="#">4</a></li>
+        <li><a href="#">5</a></li>
+        <li><a href="#" aria-label="Next"><span aria-hidden="true">»</span></a></li>
+    </ul>
+</nav>
+{% endblock %}
