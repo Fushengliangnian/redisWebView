@@ -15,7 +15,7 @@ from common import app
 async def index(request):
     template = request.app.template.get_template("/index.html")
     redis = request.app.redis
-    ret = await redis.info()
+    ret = await redis.info("all")
     print(ret)
     return html(template.render())
 
@@ -41,12 +41,11 @@ async def all_keys(request, db):
         b"set": redis.smembers,
         b"string": redis.get,
     }
+
     data = []
-    all_keys = await redis.keys("*")
-    print(all_keys)
-    # calls = [redis.type(key) for key in all_keys]
-    # ret = await asyncio.gather(*calls)
-    for key in all_keys:
+    keys = await redis.keys("*")
+
+    for key in keys:
         key_type = await redis.type(key)
         func = _type_dict[key_type]
         if key_type in (b"list", b"zset"):
@@ -54,14 +53,16 @@ async def all_keys(request, db):
         else:
             values = await func(key)
 
-        # json_value = ujson.dumps(values.decode("utf-8")) if key_type == b"string" else ujson.dumps(values)
         str_value = str(values)
         size = len(str_value)
 
-        data.append({"key": key.decode("utf8"), "type": key_type.decode("utf8"), "details": str_value[0: 50], "size": size})
-    print(data)
+        data.append({
+            "key": key.decode("utf8"),
+            "type": key_type.decode("utf8"),
+            "details": str_value[0: 50],
+            "size": size
+        })
     template = request.app.template.get_template("/allKeys.html")
-    # return html(template.render(data=[{"key": "redis-key", "type": "hash", "size": 10, "details": "1"}]))
     return html(template.render(data=data))
 
 
