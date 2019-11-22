@@ -4,3 +4,13 @@
 # @Author  : lidong@immusician.com
 # @Site    :
 # @File    : main.py
+
+from views import app
+
+
+def main():
+    app.run("0.0.0.0", debug=True)
+
+
+if __name__ == '__main__':
+    main()
