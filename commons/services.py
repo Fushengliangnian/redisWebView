@@ -4,3 +4,11 @@
 # @Author  : lidong@test.com
 # @Site    : 
 # @File    : services.py
+
+
+class BaseService:
+    def __init__(self, request):
+        self.redis = request.app.redis
+
+    def exec(self):
+        pass

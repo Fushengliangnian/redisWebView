@@ -11,7 +11,7 @@ from sanic.config import Config
 
 def load_setting():
     conf = Config()
-    module = os.environ.get('SANIC_SETTINGS_MODULE', 'settings')
+    module = os.environ.get('SANIC_SETTINGS_MODULE', 'commons.settings')
     path = '%s.py' % module.replace('.', '/')
     conf.from_pyfile(path)
     return conf

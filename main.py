@@ -5,10 +5,14 @@
 # @Site    :
 # @File    : main.py
 
-from views import app
+from commons.sanic_app import app
+from apps.server.views import app as server_blueprint
+from apps.redis_infos.views import app as info_blueprint
 
 
 def main():
+    app.blueprint(server_blueprint)
+    app.blueprint(info_blueprint)
     app.run("0.0.0.0", debug=True)
 
 
