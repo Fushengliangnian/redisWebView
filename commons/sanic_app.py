@@ -9,8 +9,8 @@ import asyncio
 from sanic import Sanic
 from jinja2 import Environment, FileSystemLoader, select_autoescape
 
-from utils import load_setting
-from connections import RedisConnectionPool
+from commons.utils import load_setting
+from commons.connections import RedisConnectionPool
 
 __all__ = ["app"]
 
