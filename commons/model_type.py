@@ -18,16 +18,16 @@ class ModelMeta(type):
         :param bases: 该子类的继承关系
         :param attrs: 该子类的自身的类对象
         """
-        # print(cls, name, bases, attrs)
+        # print(cls._description, name, bases, attrs)
         # print(type(cls), type(name), type(bases), type(attrs))
         if name != "ModelBase":
-            MODEL_CLASS_DICT[attrs["description"]] = cls
+            MODEL_CLASS_DICT[cls._description] = cls
 
 
 class ModelBase(metaclass=ModelMeta):
     # class Meta:
     #     name = "a"
-    description = None
+    _description = None
 
 
 class Field:
