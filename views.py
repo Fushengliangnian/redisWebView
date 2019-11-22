@@ -5,10 +5,9 @@
 # @Site    :
 # @File    : views.py
 
-import ujson
 from sanic.response import html, json
 
-from common import app
+from commons.common import app
 
 
 @app.get("/")
@@ -64,6 +63,11 @@ async def all_keys(request, db):
         })
     template = request.app.template.get_template("/allKeys.html")
     return html(template.render(data=data))
+
+
+@app.get("/version/info")
+def version_info(request):
+    return {}
 
 
 if __name__ == '__main__':
