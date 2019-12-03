@@ -17,5 +17,10 @@ def load_setting():
     return conf
 
 
+async def render(request, file_path, **kwargs):
+    template = request.app.template.get_template(file_path)
+    return template.render(**kwargs)
+
+
 if __name__ == '__main__':
     print(load_setting())

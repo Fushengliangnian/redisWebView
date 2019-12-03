@@ -11,7 +11,7 @@ if [ -z $APP_NAME ]; then
     exit 1
 fi
 
-cd ../apps
+cd apps
 CURRENT_PATH=$(pwd)
 
 

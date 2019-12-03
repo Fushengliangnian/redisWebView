@@ -6,7 +6,8 @@
 # @File    : views.py
 
 from sanic.blueprints import Blueprint
-from sanic.response import html, json
+from commons.exceptions import FieldTypeException
+from commons.utils import render
 
 
 app = Blueprint("server")
@@ -14,8 +15,8 @@ app = Blueprint("server")
 
 @app.get("/")
 async def index(request):
-    template = request.app.template.get_template("/index.html")
     redis = request.app.redis
     ret = await redis.info("all")
-    print(ret)
-    return html(template.render())
+    # raise FieldTypeException()
+    # raise Exception()
+    return await render(request, "/index.html", ret=ret)

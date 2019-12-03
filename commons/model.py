@@ -18,7 +18,6 @@ class Field:
             deserialization_name: str = None,
             *args,
             **kwargs):
-        print("______")
         if description is None:
             raise EmptyException(error_msg="description 必须填写")
         self.description = description
@@ -71,8 +70,6 @@ class ModelMeta(type):
 
 
 class ModelBase(metaclass=ModelMeta):
-    # class Meta:
-    #     name = "a"
     _description = None
     _dict = None
 
@@ -85,7 +82,6 @@ class ModelBase(metaclass=ModelMeta):
         for field, value in self.params:
             attrs = getattr(self, field)
             if not attrs:
-
                 raise FieldNotDefineException()
             value_type = attrs.field_type
             if not isinstance(value, value_type):
@@ -93,14 +89,31 @@ class ModelBase(metaclass=ModelMeta):
 
     @classmethod
     def _process_serialization_name(cls, attrs):
+        """
+        初始化时, 将定义的model中的字段对应的名字更改为 serialization_name
+        e.q.
+        ```
+            class AModel(ModelBase):
+                os_sys = String(description="服务器的宿主操作系统", serialization_name="os", deserialization_name="os")
+
+            AModel.os_sys   # 删除此字段
+            AModel.os       # 改为此字段
+        ```
+        :param attrs:
+        :return:
+        """
         for field, field_obj in attrs.items():
             if field[0] != "_":
                 if isinstance(field_obj, Field):
                     if field_obj.serialization_name is not None:
-                        # attrs[field_obj.serialization_name] = field_obj
+                        delattr(cls, field)
                         setattr(cls, field_obj.serialization_name, field_obj)
-                        # TODO: 处理需要序列化的字段
-                        print(attrs)
+
+    def to_db(self):
+        pass
+
+    def to_dict(self):
+        pass
 
 
 if __name__ == '__main__':
