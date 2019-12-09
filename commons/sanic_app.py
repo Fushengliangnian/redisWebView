@@ -5,12 +5,15 @@
 # @Site    :
 # @File    : common.py
 import asyncio
+import gzip
 
 from sanic import Sanic
+from sanic.response import html, json
 from jinja2 import Environment, FileSystemLoader, select_autoescape
 
-from utils import load_setting
-from connections import RedisConnectionPool
+from commons.utils import load_setting
+from commons.connections import RedisConnectionPool
+from commons.exceptions import CustomErrorHandler
 
 __all__ = ["app"]
 
@@ -22,6 +25,7 @@ app.template = Environment(
     enable_async=False
 )
 app.static("/static", "./static")
+app.error_handler = CustomErrorHandler()
 
 
 @app.listener('before_server_start')
@@ -29,3 +33,16 @@ async def before_server_start(app, loop):
     queue = asyncio.Queue()
     app.queue = queue
     app.redis = await RedisConnectionPool(loop=loop).init(app.config['REDIS_CONFIG'])
+
+
+@app.middleware("response")
+async def gzip_response(request, response):
+    if isinstance(response, dict):
+        response = json(response)
+        response.headers["Content-Type"] = "application/json"
+    if isinstance(response, str):
+        response = html(response)
+
+    response.headers["Content-Encoding"] = "gzip"
+    response.body = gzip.compress(response.body)
+    return response

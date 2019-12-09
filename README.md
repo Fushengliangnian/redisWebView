@@ -1,6 +1,15 @@
 # redisWebView
 针对redis的Web版图形界面
 
+# Quickstart
+```
+# 安装第三方包, 推荐使用虚拟环境 virtualenv 或者 venv
+pip install -r requirements.txt
+
+# 创建新的app
+/bin/bash  /Users/lidong/opt/redisWebView/scripts/create_app.sh app_name
+```
+
 # Question:
 - model 是否选用schematics
 
@@ -26,3 +35,6 @@
 - 监听redis中值的变化
 - 存储redis中 value 的历史变化
 - 页面的优化
+- 项目整体的可配置化, 对其他框架也做兼容
+- **逻辑尽量全部写在service里**, **view里只做数据的校验**, 先适用 F 后期在配置化的时候决定用 F or C
+

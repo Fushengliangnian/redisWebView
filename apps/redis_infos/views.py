@@ -1,13 +1,13 @@
 # -*- coding: utf-8 -*-
 # !/usr/bin/env python
-# @Time    : 2019-08-29 17:49
-# @Author  : lidong@immusician.com
-# @Site    :
+# @Time    :  4:43 下午
+# @Author  : lidong@test.com
+# @Site    : 
 # @File    : views.py
-
 from sanic.response import html, json
+from sanic.blueprints import Blueprint
 
-from commons.common import app
+app = Blueprint("redis_infos", url_prefix="infos")
 
 
 @app.get("/")
@@ -68,7 +68,3 @@ async def all_keys(request, db):
 @app.get("/version/info")
 def version_info(request):
     return {}
-
-
-if __name__ == '__main__':
-    app.run("0.0.0.0", debug=True)

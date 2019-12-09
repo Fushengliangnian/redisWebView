@@ -1,10 +1,10 @@
 # -*- coding: utf-8 -*-
 # !/usr/bin/env python
-# @Time    :  2:37 下午
+# @Time    :  4:44 下午
 # @Author  : lidong@test.com
 # @Site    : 
 # @File    : models.py
-from commons.model_type import ModelBase, String
+from commons.model import ModelBase, String
 
 
 class RedisInfoServer(ModelBase):
@@ -16,7 +16,7 @@ class RedisInfoServer(ModelBase):
     redis_build_id = String(description="Git dirty flag")
     redis_mode = String(description="运行模式，单机或者集群")
     # TODO: 原名 os, 为了避免冲突, 需要添加 序列化, 反序列化相关操作
-    os_sys = String(description="服务器的宿主操作系统")
+    os_sys = String(description="服务器的宿主操作系统", serialization_name="os", deserialization_name="os")
     arch_bits = String(description="架构（32 或 64 位）")
     multiplexing_api = String(description="Redis 所使用的事件处理机制")
     atomicvar_api = String(description="原子处理api")
@@ -30,7 +30,6 @@ class RedisInfoServer(ModelBase):
     lru_clock = String(description="自增的时钟，用于LRU管理,该时钟100ms(hz=10,因此每1000ms/10=100ms执行一次定时任务)更新一次")
     executable = String(description="执行文件")
     config_file = String(description="配置文件路径")
-
 
 
 class RedisInfoClient(ModelBase):
